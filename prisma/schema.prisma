@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int @id @default(autoincrement())
+  name      String
+  email     String @unique
+  cpf       String @unique
+  password  String
+}
+
+model Cars {
+  id        Int @id @default(autoincrement())
+  modelo    String
+  marca     String
+  potencia  String
+  cor       String
+  portas    Int
+  ar        Boolean @default(false)
+  renavam   String @unique
+  placa     String @unique
+  imgcar    String
+  estado    String
+  cidade    String
+  abastecimentos Abastecimentos[]
+}
+
+model Abastecimentos {
+  id                Int @id @default(autoincrement())
+  abastecimento     Cars @relation(fields: [carId], references: [id])
+  carId             Int
+  tipoCombustivel   Combustivel @default(gasolina)
+  valorLitro        Decimal @db.Decimal(9,2)
+  litros            Decimal @db.Decimal(9,1)
+  valorTotal        Decimal @db.Decimal(9,2)
+  data              DateTime @default(now()) @db.Timestamptz()
+  createdAt         DateTime @default(now()) @db.Timestamptz()
+  updatedAt         DateTime @updatedAt @db.Timestamptz()
+}
+
+enum Combustivel {
+  diesel @map("Diesel")
+  gasolina @map("Gasolina")
+  alcool @map("Alcool")
+}
