@@ -22,11 +22,15 @@ export default NextAuth({
 
         if (user === null) throw new Error('User not found')
 
+        console.log(user)
+
         const verifyPassword = bcrypt.compareSync(password, user.password)
+
+        console.log(verifyPassword)
 
         if (verifyPassword === null) throw new Error('Password invalid')
 
-        return { id: String(user.id), email: user.email, name: user.email }
+        return { id: String(user.id), email: user.email, name: user.name }
       }
     })
   ],
@@ -48,6 +52,6 @@ export default NextAuth({
     }
   },
   jwt: {
-    secret: process.env.SCRET
+    secret: process.env.SECRET
   }
 })
