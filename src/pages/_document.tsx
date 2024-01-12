@@ -1,6 +1,5 @@
 import React, { type ReactElement } from 'react'
-import Document, { Html, Main, NextScript, type DocumentInitialProps, type DocumentContext } from 'next/document'
-import Head from 'next/head'
+import Document, { Html, Head, Main, NextScript, type DocumentInitialProps, type DocumentContext } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
 // NEXT.JS CUSTOM DOCUMENT
