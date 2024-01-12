@@ -13,37 +13,35 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
   if (token !== null) {
     if (method === 'GET') {
-      const user = await prisma.user.findUnique({
+      const abastecimento = await prisma.abastecimentos.findUnique({
         where: {
           id: Number(id)
-        },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          cpf: true
         }
       })
 
-      res.status(200).json({ data: user })
+      res.status(200).json(abastecimento)
     } else if (method === 'PUT') {
       const { body } = req
 
-      await prisma.user.update({
-        where: { id: Number(id) },
+      await prisma.abastecimentos.update({
+        where: {
+          id: Number(id)
+        },
         data: body
       })
 
-      res.status(200).json({ message: 'Usuário atualizado com sucesso!' })
+      res.status(200).json({ message: 'Abastecimento atualizado com sucesso!' })
     } else if (method === 'DELETE') {
-      await prisma.user.delete({
-        where: { id: Number(id) }
+      await prisma.abastecimentos.delete({
+        where: {
+          id: Number(id)
+        }
       })
 
-      res.status(200).json({ message: 'Usuário deletado com sucesso!' })
-    } else {
-      res.status(404).json({ message: 'Route not found' })
+      res.status(200).json({ message: 'Abastecimento deletado com sucesso!' })
     }
+
+    res.status(404).json({ message: 'Route not found' })
   }
 
   res.status(401).json({ message: 'unauthorized' })
