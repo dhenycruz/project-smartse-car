@@ -28,7 +28,7 @@ export default NextAuth({
 
         console.log(verifyPassword)
 
-        if (verifyPassword === null) throw new Error('Password invalid')
+        if (!verifyPassword) throw new Error('Password invalid')
 
         return { id: String(user.id), email: user.email, name: user.name }
       }
