@@ -1,7 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-// import bcrypt from 'bcryptjs'
 import { type NextApiRequest, type NextApiResponse } from 'next'
-// import { getToken } from 'next-auth/jwt'
 
 const prisma = new PrismaClient()
 // onst secret = process.env.SECRET
