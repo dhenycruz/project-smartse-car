@@ -44,7 +44,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     } else {
       res.status(404).json({ message: 'Route not found' })
     }
+  } else {
+    res.status(401).json({ message: 'unauthorized' })
   }
-
-  res.status(401).json({ message: 'unauthorized' })
 }

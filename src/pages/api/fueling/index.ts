@@ -32,10 +32,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       })
 
       res.status(201).json({ message: 'Carro abastecido com sucesso!', result: abastecimento })
+    } else {
+      res.status(404).json({ message: 'Route not found' })
     }
-
-    res.status(404).json({ message: 'Route not found' })
+  } else {
+    res.status(401).json({ message: 'unauthorized' })
   }
-
-  res.status(401).json({ message: 'unauthorized' })
 }
