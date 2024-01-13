@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { siglas, estados } from '@/utils/estados'
-import { type UseMutateFunction } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 
 interface FormValues {
   modelo: string
@@ -19,11 +20,23 @@ interface FormValues {
 
 interface Props {
   closeForm: (param: boolean) => void
-  createCar: UseMutateFunction
+  refetch: () => void
 }
 
-const CreateCar: React.FC<Props> = ({ closeForm, createCar }): React.ReactElement => {
+const CreateCar: React.FC<Props> = ({ closeForm, refetch }): React.ReactElement => {
   const [arCheck, setArCheck] = useState(false)
+
+  const createCar = useMutation({
+    mutationFn: async (car: FormValues) => {
+      return await axios.post('/api/cars', car)
+    },
+    onSuccess: () => {
+      refetch()
+    },
+    onError: (error) => {
+      console.error(error)
+    }
+  })
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -43,7 +56,7 @@ const CreateCar: React.FC<Props> = ({ closeForm, createCar }): React.ReactElemen
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const onSubmit: SubmitHandler<FormValues> = async (data: FormValues): Promise<void> => {
-    createCar(data)
+    createCar.mutate(data)
     closeForm(false)
   }
 
