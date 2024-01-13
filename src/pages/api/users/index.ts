@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { type NextApiRequest, type NextApiResponse } from 'next'
-import bcrypt from 'bcryptjs'
+// import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
@@ -21,7 +21,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
     res.status(200).json({ data: users })
     res.end()
-  } else if (method === 'POST') {
+  } /* else if (method === 'POST') {
     const { name, email, cpf, password } = req.body
 
     const verifyCPF = await prisma.user.findUnique({
@@ -48,5 +48,5 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     res.status(201).json({ id: user.id, name: user.name, cpf: user.cpf })
   }
 
-  res.status(404).json({ message: 'Route not found' })
+  res.status(404).json({ message: 'Route not found' }) */
 }
