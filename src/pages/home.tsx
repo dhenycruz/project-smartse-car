@@ -19,7 +19,8 @@ const Home = (): React.ReactElement => {
       <h1>Home</h1>
       <hr className='mb-4'/>
       {
-        (!isLoading) && (
+        (!isLoading)
+          ? (
           <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 place-items-center '>
             {
               data.map((car: Cars) => (
@@ -27,7 +28,8 @@ const Home = (): React.ReactElement => {
               ))
             }
           </div>
-        )
+            )
+          : <h1>testando</h1>
       }
     </>
   )
