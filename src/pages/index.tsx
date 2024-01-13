@@ -25,14 +25,11 @@ const Login = (): React.ReactElement => {
   }
 
   const onSubmit: SubmitHandler<FormValues> = async (data: { cpf: string, password: string }) => {
-    console.log(data)
     const result = await signIn('credentials', {
       redirect: false,
       cpf: data.cpf,
       password: data.password
-    }).catch((e) => { console.log(e) })
-    console.log(result)
-
+    })
     if (result?.ok === true) {
       void router.push('/home')
     } else {

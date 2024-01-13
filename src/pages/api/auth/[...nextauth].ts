@@ -23,11 +23,7 @@ export default NextAuth({
 
         if (user === null) throw new Error('User not found')
 
-        console.log(user)
-
         const verifyPassword = bcrypt.compareSync(password, user.password)
-
-        console.log(verifyPassword)
 
         if (!verifyPassword) throw new Error('Password invalid')
 

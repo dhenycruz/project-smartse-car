@@ -6,8 +6,6 @@ import Logo from '../../../public/logo.png'
 const Header = (): React.ReactElement => {
   const { data: session } = useSession()
 
-  console.log(session)
-
   return (
     <header className='w-full h-14 bg-black text-white flex justify-around items-center'>
       <Image src={Logo} alt='Logo' width={120}/>
