@@ -17,8 +17,6 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       }
     })
 
-    console.log(users)
-
     res.status(200).json({ data: users })
     res.end()
   } else if (method === 'POST') {
@@ -46,7 +44,9 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     })
 
     res.status(201).json({ id: user.id, name: user.name, cpf: user.cpf })
+    res.end()
   }
 
   res.status(404).json({ message: 'Route not found' })
+  res.end()
 }
