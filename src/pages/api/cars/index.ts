@@ -38,9 +38,9 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       })
 
       res.status(201).json(car)
+    } else {
+      res.status(404).json({ message: 'Route not found' })
     }
-
-    res.status(404).json({ message: 'Route not found' })
   }
 
   res.status(401).json({ message: 'unauthorized' })
