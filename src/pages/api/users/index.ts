@@ -26,7 +26,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       where: { cpf }
     })
 
-     if (verifyCPF != null) res.status(409).json({ message: 'CPF já cadastrado.' })
+    if (verifyCPF != null) res.status(409).json({ message: 'CPF já cadastrado.' })
 
     const verifyEmail = await prisma.user.findUnique({
       where: { email }
