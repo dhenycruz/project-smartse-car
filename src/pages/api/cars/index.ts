@@ -30,7 +30,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         }
       })
 
-      res.status(200).json({ data: cars })
+      res.status(200).json(cars)
     } else if (method === 'POST') {
       const { body } = req
       const car = await prisma.cars.create({
