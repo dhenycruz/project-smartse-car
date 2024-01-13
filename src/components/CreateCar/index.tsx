@@ -1,13 +1,28 @@
 import React, { useState } from 'react'
-// import { useMutation } from '@tanstack/react-query'
-// import axios from 'axios'
 import { type SubmitHandler, useForm } from 'react-hook-form'
+import { siglas, estados } from '@/utils/estados'
+import { type UseMutateFunction } from '@tanstack/react-query'
+
+interface FormValues {
+  modelo: string
+  marca: string
+  potencia: string
+  cor: string
+  portas: number
+  ar: boolean
+  renavam: string
+  placa: string
+  imgcar: string
+  estado: string
+  cidade: string
+}
 
 interface Props {
   closeForm: (param: boolean) => void
+  createCar: UseMutateFunction
 }
 
-const CreateCar: React.FC<Props> = ({ closeForm }): React.ReactElement => {
+const CreateCar: React.FC<Props> = ({ closeForm, createCar }): React.ReactElement => {
   const [arCheck, setArCheck] = useState(false)
 
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -26,34 +41,16 @@ const CreateCar: React.FC<Props> = ({ closeForm }): React.ReactElement => {
     }
   })
 
-  interface FormValues {
-    modelo: string
-    marca: string
-    potencia: string
-    cor: string
-    portas: number
-    ar: boolean
-    renavam: string
-    placa: string
-    imgcar: string
-    estado: string
-    cidade: string
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const onSubmit: SubmitHandler<FormValues> = async (data: FormValues): Promise<void> => {
+    createCar(data)
+    closeForm(false)
   }
-
-  const onSubmit: SubmitHandler<FormValues> = async (data: { modelo: string, marca: string }): Promise<void> => {
-    console.log(data)
-  }
-
-  /* const mutation = useMutation({
-    mutationFn: (car) => {
-      return axios.post('/cars', car)
-    }
-  }) */
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <>
-    <form onSubmit={ handleSubmit((data) => { onSubmit(data) })} className='p-2 border borde-black-300 mb-4 m-auto'>
+    { /* eslint-disable-next-line @typescript-eslint/no-misused-promises */ }
+    <form onSubmit={ handleSubmit((data) => { void onSubmit(data) })} className='p-2 border borde-black-300 mb-4 m-auto'>
       <sub>ADICIONAR CARRO</sub>
       <hr className='mb-2 mt-2'/>
       <div className='grid mobile:grid-cols-1 mobilemd:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 place-items-center'>
@@ -113,7 +110,9 @@ const CreateCar: React.FC<Props> = ({ closeForm }): React.ReactElement => {
           defaultValue='AL'
         >
           <option value=''>Selecionar estado</option>
-          <option>DF</option>
+            {
+              siglas.map((res, i) => <option key={i} value={res}>{estados[i]}</option>)
+            }
         </select>
       </div>
       <input

@@ -32,9 +32,21 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
       res.status(200).json(cars)
     } else if (method === 'POST') {
-      const { body } = req
+      const { modelo, marca, potencia, cor, placa, portas, renavam, ar, imgcar, estado, cidade } = req.body
       const car = await prisma.cars.create({
-        data: body
+        data: {
+          modelo,
+          marca,
+          potencia,
+          cor,
+          portas: Number(portas),
+          ar,
+          renavam,
+          placa,
+          imgcar,
+          estado,
+          cidade
+        }
       })
 
       res.status(201).json(car)
