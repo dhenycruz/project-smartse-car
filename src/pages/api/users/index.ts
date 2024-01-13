@@ -22,7 +22,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   } else if (method === 'POST') {
     const { name, email, cpf, password } = req.body
 
-    const verifyCPF = await prisma.user.findUnique({
+    /* const verifyCPF = await prisma.user.findUnique({
       where: { cpf }
     })
 
@@ -32,7 +32,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       where: { email }
     })
 
-    if (verifyEmail != null) res.status(409).json({ message: 'Email já cadastrado.' })
+    if (verifyEmail != null) res.status(409).json({ message: 'Email já cadastrado.' }) */
 
     const salt = await bcrypt.genSalt(10)
     const newPassowrd = await bcrypt.hash(String(password), salt)
