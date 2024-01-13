@@ -1,17 +1,12 @@
 import { PrismaClient } from '@prisma/client'
 import { type NextApiRequest, type NextApiResponse } from 'next'
 import bcrypt from 'bcryptjs'
-// import { getToken } from 'next-auth/jwt'
 
 const prisma = new PrismaClient()
-// const secret = process.env.SECRET
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const { method } = req
 
-  /*   const token = await getToken({ req, secret })
-  console.log(token)
-  if (token !== null) { */
   if (method === 'GET') {
     const users = await prisma.user.findMany({
       select: {
@@ -54,6 +49,3 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
   res.status(404).json({ message: 'Route not found' })
 }
-
-// res.status(401).json({ message: 'unauthorized' })
-// }
