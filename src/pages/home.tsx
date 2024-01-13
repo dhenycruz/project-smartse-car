@@ -13,7 +13,6 @@ const Home = (): React.ReactElement => {
         .then(({ data }) => data)
     }
   })
-
   return (
     <>
       <Header />
@@ -22,16 +21,6 @@ const Home = (): React.ReactElement => {
       {
         (!isLoading) && (
           <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 place-items-center '>
-            {
-              data.map((car: Cars) => (
-                  <Card key={car.id} {...car} />
-              ))
-            }
-            {
-              data.map((car: Cars) => (
-                  <Card key={car.id} {...car} />
-              ))
-            }
             {
               data.map((car: Cars) => (
                   <Card key={car.id} {...car} />
