@@ -1,51 +1,59 @@
 import { PrismaClient } from '@prisma/client'
 import { type NextApiRequest, type NextApiResponse } from 'next'
 import bcrypt from 'bcryptjs'
+import { getToken } from 'next-auth/jwt'
 
 const prisma = new PrismaClient()
+const secret = process.env.SECRET
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const { method } = req
 
-  if (method === 'GET') {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        cpf: true,
-        email: true
-      }
-    })
+  const token = await getToken({ req, secret })
 
-    res.status(200).json({ data: users })
-    res.end()
-  } else if (method === 'POST') {
-    const { name, email, cpf, password } = req.body
+  if (token !== null) {
+    if (method === 'GET') {
+      const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          name: true,
+          cpf: true,
+          email: true
+        }
+      })
 
-    const verifyCPF = await prisma.user.findUnique({
-      where: { cpf }
-    })
+      res.status(200).json({ data: users })
+      res.end()
+    } else if (method === 'POST') {
+      const { name, email, cpf, password } = req.body
 
-    if (verifyCPF != null) res.status(409).json({ message: 'CPF já cadastrado.' })
+      const verifyCPF = await prisma.user.findUnique({
+        where: { cpf }
+      })
 
-    const verifyEmail = await prisma.user.findUnique({
-      where: { email }
-    })
+      if (verifyCPF != null) res.status(409).json({ message: 'CPF já cadastrado.' })
 
-    if (verifyEmail != null) res.status(409).json({ message: 'Email já cadastrado.' })
+      const verifyEmail = await prisma.user.findUnique({
+        where: { email }
+      })
 
-    const salt = await bcrypt.genSalt(10)
-    const newPassowrd = await bcrypt.hash(String(password), salt)
+      if (verifyEmail != null) res.status(409).json({ message: 'Email já cadastrado.' })
 
-    const user = await prisma.user.create({
-      data: {
-        name, email, cpf, password: newPassowrd
-      }
-    })
+      const salt = await bcrypt.genSalt(10)
+      const newPassowrd = await bcrypt.hash(String(password), salt)
 
-    res.status(201).json({ id: user.id, name: user.name, cpf: user.cpf })
-    res.end()
+      const user = await prisma.user.create({
+        data: {
+          name, email, cpf, password: newPassowrd
+        }
+      })
+
+      res.status(201).json({ id: user.id, name: user.name, cpf: user.cpf })
+      res.end()
+    } else {
+      res.status(404).json({ message: 'Route not found' })
+    }
   } else {
-    res.status(404).json({ message: 'Route not found' })
+    res.status(401).json({ message: 'unauthorized' })
   }
 }
