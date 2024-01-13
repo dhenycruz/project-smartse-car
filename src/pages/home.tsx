@@ -14,8 +14,6 @@ const Home = (): React.ReactElement => {
     }
   })
 
-  if (isLoading) return <p>Test</p>
-
   return (
     <>
       <Header />
