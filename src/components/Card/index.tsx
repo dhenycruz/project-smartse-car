@@ -3,7 +3,7 @@ import React from 'react'
 
 const Card = (props: Cars): React.ReactElement => {
   return (
-    <div className='w-72 h-full border-solid border-2 rounded-md bg-white'>
+    <div className='w-full sm:w-80 md:w-96 h-full border-solid border-2 rounded-md bg-white'>
       <img src={props.imgcar} alt='Foto veículo' />
       <h1 className='text-center font-bold mt-2'>{props.marca} {props.modelo} {props.potencia}</h1>
       <div className='flex flex-col text-center'>
