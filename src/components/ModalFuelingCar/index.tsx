@@ -6,13 +6,14 @@ import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 
 interface Props {
-  openFueling: boolean
   setOpenFueling: (param: boolean) => void
   car: Cars
   refetch: () => void
+  setOnSuccess: (param: boolean) => void
+  setResultText: (param: string) => void
 }
 
-const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch }): React.ReactElement => {
+const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch, setOnSuccess, setResultText }): React.ReactElement => {
   const { register, handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: {
       carId: car.id,
@@ -35,30 +36,35 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch }): Rea
   }
 
   const fuelingCar = useMutation({
-    mutationFn: async (abasteciment) => {
-      return await axios.post('/api/fueling/1')
+    mutationFn: async (abasteciment: TypeValue) => {
+      return await axios.post('/api/fueling/', abasteciment)
     },
     onSuccess: () => {
       refetch()
+      setOnSuccess(true)
+      setResultText('Abastecimento cadastrado com sucesso!')
+      setTimeout(() => {
+        setOnSuccess(false)
+      }, 500)
+    },
+    onError: (error) => {
+      console.error(error)
     }
   })
 
-  const onSubmit: SubmitHandler<TypeValue> = async (data: TypeValue) => {
-    console.log(data, litros)
-
-    fuelingCar.mutate()
+  const onSubmit: SubmitHandler<TypeValue> = async (data: TypeValue): Promise<void> => {
+    const { carId, tipoCombustivel, valorLitro, litros, valorTotal } = data
+    fuelingCar.mutate({ carId, tipoCombustivel, valorLitro, litros, valorTotal })
   }
 
   return (
     <div className='w-96 rounded-lg border border-black bg-white z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 flex justify-center  items-center flex-col'>
       <h2 className='font-bold'>Abastecer {car.marca} {car.modelo}</h2>
-      <h3>Deseja realmente deletar esse carro?</h3>
       <form onSubmit={ handleSubmit((data) => { return onSubmit(data) })} className='p-2 border borde-black-300 mb-4 m-auto'>
-        <sub>ADICIONAR CARRO</sub>
         <hr className='mb-2 mt-2'/>
-        <div className='grid mobile:grid-cols-1 gap-2 mobilemd:grid-cols-2 tablet:grid-cols-4 desktop:grid-cols-4 lgdevices:grid-cols-4 place-items-center '>
+        <div className='grid mobile:grid-cols-1 gap-2 mobilemd:grid-cols-2 tablet:grid-cols-2 desktop:grid-cols-2 lgdevices:grid-cols-2 place-items-center '>
           <input type='hidden' value={car.id} />
-          <div>
+          <div className='w-full'>
             <label className='text-slate-600 text-sm'>Tipo de Combustível</label>
             <select
               {...register('tipoCombustivel', { required: true })}
@@ -71,7 +77,7 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch }): Rea
               <option value='alcool'>Álcool</option>
             </select>
           </div>
-          <div>
+          <div className='w-full'>
             <label className='text-slate-600 text-sm'>Valor do Litro</label>
             <input
               {...register('valorLitro', { required: true })}
@@ -83,7 +89,7 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch }): Rea
               className='w-full border border-black-100 p-2 mb-2 '
           />
           </div>
-          <div>
+          <div className='w-full'>
             <label className='text-slate-600 text-sm'>Litros</label>
             <Controller
               control={control}
@@ -107,7 +113,7 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch }): Rea
               className='w-full border border-black-100 p-2 mb-2'
             /> */}
           </div>
-          <div>
+          <div className='w-full'>
             <label className='text-slate-600 text-sm'>Valor Total</label>
             <input
               {...register('valorTotal', { required: true })}
@@ -119,7 +125,7 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch }): Rea
             />
           </div>
         </div>
-        <hr className='bg-black mb-4'/>
+        <hr className='mb-4'/>
           <button
             className='bg-white border border-black w-36 pr-4 pb-1 pt-1 text-black-400 rounded-lg mr-4'
             onClick={ () => {
@@ -130,6 +136,8 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch }): Rea
           </button>
           <button
             className='bg-green-600 border border-black  w-36 pb-1 pt-1 text-black-400 rounded-lg'
+            type='submit'
+            onClick={ () => { setOpenFueling(false) }}
           >
             Abastecer
           </button>

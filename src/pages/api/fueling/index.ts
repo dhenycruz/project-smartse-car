@@ -14,7 +14,6 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       const abastecimentos = await prisma.abastecimentos.findMany({
         select: {
           id: true,
-          abastecimento: true,
           carId: true,
           tipoCombustivel: true,
           valorLitro: true,

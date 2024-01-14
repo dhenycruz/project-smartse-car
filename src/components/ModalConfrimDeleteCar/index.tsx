@@ -3,7 +3,6 @@ import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 
 interface Props {
-  open: boolean
   onModal: (param: boolean) => void
   id: number
   refetch: () => void
@@ -11,7 +10,7 @@ interface Props {
   setResultText: (param: string) => void
 }
 
-const ModalConfirmDel: React.FC<Props> = ({ open, onModal, id, refetch, setOnSuccess, setResultText }): React.ReactElement => {
+const ModalConfirmDel: React.FC<Props> = ({ onModal, id, refetch, setOnSuccess, setResultText }): React.ReactElement => {
   const deleteCar = useMutation({
     mutationFn: async (id: number) => {
       const url = `/api/cars/${String(id)}`

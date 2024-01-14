@@ -5,6 +5,7 @@ import { BsFuelPumpFill } from 'react-icons/bs'
 import { FaEdit } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
 import ModalFuelingCar from '../ModalFuelingCar'
+import ModalUpCar from '../ModalUpCar'
 
 interface Props {
   car: Cars
@@ -17,6 +18,7 @@ interface Props {
 const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResultText }): React.ReactElement => {
   const [open, onModal] = useState(false)
   const [openFueling, setOpenFueling] = useState(false)
+  const [openUpCar, setOpenUpCar] = useState(false)
 
   const fnDelete = (): void => {
     onModal(true)
@@ -24,6 +26,10 @@ const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResul
 
   const fnFueling = (): void => {
     setOpenFueling(true)
+  }
+
+  const upCar = (): void => {
+    setOpenUpCar(true)
   }
 
   return (
@@ -43,7 +49,10 @@ const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResul
           >
             <BsFuelPumpFill />
           </button>
-          <button className='bg-white border p-2 rounded-lg mb-2 font-bold text-black border-slate-300 w-full flex justify-center ml-1 mr-1'>
+          <button
+            className='bg-white border p-2 rounded-lg mb-2 font-bold text-black border-slate-300 w-full flex justify-center ml-1 mr-1'
+            onClick={ () => { upCar() }}
+          >
             <FaEdit />
           </button>
           <button
@@ -56,12 +65,18 @@ const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResul
           <button className='bg-zinc-800 text-white border border-black w-full p-2 mb-2 rounded-lg'>Mais Detalhes</button>
         </div>
       </div>
+
       { open && (
-          <ModalConfirmDel open={ open } onModal={ onModal} refetch={refetch} id={car.id} setOnSuccess={ setOnSuccess } setResultText={ setResultText }/>
+          <ModalConfirmDel onModal={ onModal} refetch={refetch} id={car.id} setOnSuccess={ setOnSuccess } setResultText={ setResultText }/>
       )}
       {
         openFueling && (
-          <ModalFuelingCar openFueling={ openFueling } setOpenFueling={ setOpenFueling} car={ car } refetch={ refetch } />
+          <ModalFuelingCar setOpenFueling={ setOpenFueling } car={ car } refetch={ refetch } setOnSuccess={ setOnSuccess } setResultText={ setResultText } />
+        )
+      }
+      {
+        openUpCar && (
+          <ModalUpCar setOpenUpCar={ setOpenUpCar } car={ car } refetch={ refetch } setOnSuccess={ setOnSuccess } setResultText={ setResultText} />
         )
       }
     </>

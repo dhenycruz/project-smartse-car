@@ -73,7 +73,7 @@ const CreateCar: React.FC<Props> = ({ closeForm, refetch, setOnSuccess, setResul
     <form onSubmit={ handleSubmit((data) => { void onSubmit(data) })} className='p-2 border borde-black-300 mb-4 m-auto'>
       <sub>ADICIONAR CARRO</sub>
       <hr className='mb-2 mt-2'/>
-      <div className='grid mobile:grid-cols-1 gap-2 mobilemd:grid-cols-2 tablet:grid-cols-4 desktop:grid-cols-4 lgdevices:grid-cols-4 place-items-center '>
+      <div className='grid mobile:grid-cols-1 gap-2 mobilemd:grid-cols-2 tablet:grid-cols-4 desktop:grid-cols-4 lgdevices:grid-cols-4 place-items-center'>
         <input
           {...register('modelo', { required: true })}
           aria-invalid={ (errors.modelo !== null) ? 'true' : 'false'}
