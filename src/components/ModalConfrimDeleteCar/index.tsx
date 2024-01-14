@@ -14,9 +14,11 @@ interface Props {
   onModal: (param: boolean) => void
   id: number
   refetch: () => void
+  setOnSuccess: (param: boolean) => void
+  setResultText: (param: string) => void
 }
 
-const ModalConfirmDel: React.FC<Props> = ({ open, onModal, id, refetch }): React.ReactElement => {
+const ModalConfirmDel: React.FC<Props> = ({ open, onModal, id, refetch, setOnSuccess, setResultText }): React.ReactElement => {
   const deleteCar = useMutation({
     mutationFn: async (id: number) => {
       const url = `/api/cars/${String(id)}`
@@ -25,6 +27,11 @@ const ModalConfirmDel: React.FC<Props> = ({ open, onModal, id, refetch }): React
     onSuccess: async () => {
       // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
       void refetch()
+      setOnSuccess(true)
+      setResultText('Carro deletado com sucesso!')
+      setTimeout(() => {
+        setOnSuccess(false)
+      }, 5000)
     }
   })
 

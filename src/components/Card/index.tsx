@@ -5,9 +5,12 @@ import ModalConfirmDel from '@/components/ModalConfrimDeleteCar'
 interface Props {
   car: Cars
   refetch: () => void
+  onSuccess: boolean
+  setOnSuccess: (param: boolean) => void
+  setResultText: (param: string) => void
 }
 
-const Card: React.FC<Props> = ({ car, refetch }): React.ReactElement => {
+const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResultText }): React.ReactElement => {
   const [open, onModal] = useState(false)
 
   const fnDelete = (id: number): void => {
@@ -35,7 +38,7 @@ const Card: React.FC<Props> = ({ car, refetch }): React.ReactElement => {
         </div>
       </div>
       { open && (
-          <ModalConfirmDel open={ open } onModal={ onModal} refetch={refetch} id={car.id} />
+          <ModalConfirmDel open={ open } onModal={ onModal} refetch={refetch} id={car.id} setOnSuccess={ setOnSuccess } setResultText={ setResultText }/>
       )}
     </>
   )

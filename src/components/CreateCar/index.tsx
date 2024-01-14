@@ -21,9 +21,11 @@ interface FormValues {
 interface Props {
   closeForm: (param: boolean) => void
   refetch: () => void
+  setOnSuccess: (param: boolean) => void
+  setResultText: (param: string) => void
 }
 
-const CreateCar: React.FC<Props> = ({ closeForm, refetch }): React.ReactElement => {
+const CreateCar: React.FC<Props> = ({ closeForm, refetch, setOnSuccess, setResultText }): React.ReactElement => {
   const [arCheck, setArCheck] = useState(false)
 
   const createCar = useMutation({
@@ -32,6 +34,11 @@ const CreateCar: React.FC<Props> = ({ closeForm, refetch }): React.ReactElement 
     },
     onSuccess: () => {
       refetch()
+      setOnSuccess(true)
+      setResultText('Carro adicionado com sucesso!')
+      setTimeout(() => {
+        setOnSuccess(false)
+      }, 5000)
     },
     onError: (error) => {
       console.error(error)

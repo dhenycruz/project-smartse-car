@@ -6,9 +6,12 @@ import axios from 'axios'
 import { type Cars } from '@prisma/client'
 import Card from '@/components/Card'
 import CreateCar from '@/components/CreateCar'
+import ModalSuccess from '@/components/ModalSuccess'
 
 const Home = (): React.ReactElement => {
   const [openAddCar, setOpenAddCar] = useState(false)
+  const [resultText, setResultText] = useState('')
+  const [onSuccess, setOnSuccess] = useState(false)
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['cars'],
@@ -36,7 +39,7 @@ const Home = (): React.ReactElement => {
         }
         </div>
         <hr className='mb-4'/>
-        { openAddCar && <CreateCar closeForm={setOpenAddCar} refetch={ refetch } /> }
+        { openAddCar && <CreateCar closeForm={setOpenAddCar} refetch={ refetch } setOnSuccess={ setOnSuccess } setResultText={ setResultText } /> }
         {
           (!isLoading)
             ? (
@@ -47,12 +50,20 @@ const Home = (): React.ReactElement => {
                       key={i}
                       car={car}
                       refetch={ refetch }
+                      onSuccess={ onSuccess }
+                      setOnSuccess= {setOnSuccess}
+                      setResultText={setResultText}
                     />
                 ))
               }
             </div>
               )
             : <h1>Carregando</h1>
+        }
+        {
+          onSuccess && (
+            <ModalSuccess text={ resultText }/>
+          )
         }
       </main>
     </>
