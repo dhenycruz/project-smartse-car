@@ -29,7 +29,7 @@ interface Props {
 }
 
 const ModalUpCar: React.FC<Props> = ({ setOpenUpCar, car, refetch, setOnSuccess, setResultText }): React.ReactElement => {
-  const [arCheck, setArCheck] = useState(false)
+  const [arCheck, setArCheck] = useState(car.ar)
 
   const updateCar = useMutation({
     mutationFn: async ({ id, car }: { id: number, car: FormValues }) => {
