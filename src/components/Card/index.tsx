@@ -1,4 +1,4 @@
-import { type Cars } from '@prisma/client'
+import { type Abastecimentos, type Cars } from '@prisma/client'
 import React, { useState } from 'react'
 import ModalConfirmDel from '@/components/ModalConfrimDeleteCar'
 import { BsFuelPumpFill } from 'react-icons/bs'
@@ -6,19 +6,24 @@ import { FaEdit } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
 import ModalFuelingCar from '../ModalFuelingCar'
 import ModalUpCar from '../ModalUpCar'
+import ModalDetailCar from '../ModalDetailsCar'
+
+interface ICar extends Cars {
+  abastecimentos: Abastecimentos[]
+}
 
 interface Props {
-  car: Cars
+  car: ICar
   refetch: () => void
-  onSuccess: boolean
   setOnSuccess: (param: boolean) => void
   setResultText: (param: string) => void
 }
 
-const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResultText }): React.ReactElement => {
+const Card: React.FC<Props> = ({ car, refetch, setOnSuccess, setResultText }): React.ReactElement => {
   const [open, onModal] = useState(false)
   const [openFueling, setOpenFueling] = useState(false)
   const [openUpCar, setOpenUpCar] = useState(false)
+  const [openDetails, setOpenDetails] = useState(false)
 
   const fnDelete = (): void => {
     onModal(true)
@@ -30,6 +35,10 @@ const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResul
 
   const upCar = (): void => {
     setOpenUpCar(true)
+  }
+
+  const details = (): void => {
+    setOpenDetails(true)
   }
 
   return (
@@ -62,7 +71,7 @@ const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResul
             <MdDeleteForever />
           </button>
           </div>
-          <button className='bg-zinc-800 text-white border border-black w-full p-2 mb-2 rounded-lg'>Mais Detalhes</button>
+          <button onClick={ () => { details() }} className='bg-zinc-800 text-white border border-black w-full p-2 mb-2 rounded-lg'>Mais Detalhes</button>
         </div>
       </div>
 
@@ -77,6 +86,11 @@ const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResul
       {
         openUpCar && (
           <ModalUpCar setOpenUpCar={ setOpenUpCar } car={ car } refetch={ refetch } setOnSuccess={ setOnSuccess } setResultText={ setResultText} />
+        )
+      }
+      {
+        openDetails && (
+          <ModalDetailCar setOpenDetails={ setOpenDetails } car={ car } />
         )
       }
     </>

@@ -3,10 +3,14 @@ import Header from '@/components/Header'
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { type Cars } from '@prisma/client'
+import { type Cars, type Abastecimentos } from '@prisma/client'
 import Card from '@/components/Card'
 import CreateCar from '@/components/CreateCar'
 import ModalSuccess from '@/components/ModalSuccess'
+
+interface ICar extends Cars {
+  abastecimentos: Abastecimentos[]
+}
 
 const Home = (): React.ReactElement => {
   const [openAddCar, setOpenAddCar] = useState(false)
@@ -45,12 +49,11 @@ const Home = (): React.ReactElement => {
             ? (
             <div className='w-full grid mobile:grid-cols-1 mobilemd:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-3 lgdevices:grid-cols-4 gap-4 place-items-left place-justify-center'>
               {
-                data.map((car: Cars, i: number) => (
+                data.map((car: ICar, i: number) => (
                     <Card
                       key={i}
                       car={car}
                       refetch={ refetch }
-                      onSuccess={ onSuccess }
                       setOnSuccess= {setOnSuccess}
                       setResultText={setResultText}
                     />

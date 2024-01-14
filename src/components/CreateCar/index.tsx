@@ -27,6 +27,7 @@ interface Props {
 
 const CreateCar: React.FC<Props> = ({ closeForm, refetch, setOnSuccess, setResultText }): React.ReactElement => {
   const [arCheck, setArCheck] = useState(false)
+  const [onlyNumber, setOnlyNumber] = useState('')
 
   const createCar = useMutation({
     mutationFn: async (car: FormValues) => {
@@ -103,8 +104,17 @@ const CreateCar: React.FC<Props> = ({ closeForm, refetch, setOnSuccess, setResul
           className='w-full border border-black-100 pl-2 mb-2'
         />
         <input
-          {...register('renavam', { required: true })}
+          {...register('renavam', {
+            required: true,
+            maxLength: {
+              value: 9,
+              message: 'O Renavam deve conter 9 números'
+            }
+          })}
+          value={onlyNumber}
+          onChange={(e) => { setOnlyNumber(e.target.value.replace(/\D/g, '')) }}
           aria-invalid={ (errors.marca !== null) ? 'true' : 'false'}
+          maxLength={9}
           type='text'
           placeholder='Renavam'
           className='w-full border border-black-100 pl-2 mb-2'
@@ -113,6 +123,7 @@ const CreateCar: React.FC<Props> = ({ closeForm, refetch, setOnSuccess, setResul
           {...register('placa', { required: true })}
           aria-invalid={ (errors.marca !== null) ? 'true' : 'false'}
           type='text'
+          maxLength={7}
           placeholder='Placa'
           className='w-full border border-black-100 pl-2 mb-2'
         />

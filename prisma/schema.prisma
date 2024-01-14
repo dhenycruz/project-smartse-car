@@ -36,7 +36,7 @@ model Cars {
 
 model Abastecimentos {
   id                Int @id @default(autoincrement())
-  abastecimento     Cars @relation(fields: [carId], references: [id])
+  abastecimento     Cars @relation(fields: [carId], references: [id], onDelete: Cascade)
   carId             Int
   tipoCombustivel   Combustivel @default(gasolina)
   valorLitro        Decimal @db.Decimal(9,2)

@@ -24,7 +24,7 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch, setOnS
     }
   })
 
-  const [litros, setLitros] = useState('')
+  const [litross, setLitros] = useState('')
   const [valorLitro, setValorLtiro] = useState('')
 
   interface TypeValue {
@@ -53,8 +53,8 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch, setOnS
   })
 
   const onSubmit: SubmitHandler<TypeValue> = async (data: TypeValue): Promise<void> => {
-    const { carId, tipoCombustivel, valorLitro, litros, valorTotal } = data
-    fuelingCar.mutate({ carId, tipoCombustivel, valorLitro, litros, valorTotal })
+    const { carId, tipoCombustivel, valorLitro } = data
+    fuelingCar.mutate({ carId, tipoCombustivel, valorLitro, litros: Number(litross), valorTotal: Number(((Number(litross) * Number(valorLitro)).toFixed(2))) })
   }
 
   return (
@@ -96,7 +96,7 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch, setOnS
               name='litros'
               render={() => (
                 <input
-                  value={litros}
+                  value={litross}
                   type='number'
                   className='w-full border border-black-100 p-2 mb-2'
                   step={0.01}
@@ -119,7 +119,7 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch, setOnS
               {...register('valorTotal', { required: true })}
               aria-invalid={ (errors.valorTotal !== null) ? 'true' : 'false'}
               type='number'
-              value={(Number(litros) * Number(valorLitro)).toFixed(2)}
+              value={(Number(litross) * Number(valorLitro)).toFixed(2)}
               placeholder='Valor Total'
               className='w-full border border-black-100 p-2 mb-2'
             />
@@ -137,7 +137,6 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch, setOnS
           <button
             className='bg-green-600 border border-black  w-36 pb-1 pt-1 text-black-400 rounded-lg'
             type='submit'
-            onClick={ () => { setOpenFueling(false) }}
           >
             Abastecer
           </button>

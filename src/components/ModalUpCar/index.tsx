@@ -39,7 +39,7 @@ const ModalUpCar: React.FC<Props> = ({ setOpenUpCar, car, refetch, setOnSuccess,
     onSuccess: () => {
       refetch()
       setOnSuccess(true)
-      setResultText('Carro adicionado com sucesso!')
+      setResultText('Dados do carro foi atualizado com sucesso!')
       setTimeout(() => {
         setOnSuccess(false)
       }, 5000)
@@ -105,7 +105,14 @@ const ModalUpCar: React.FC<Props> = ({ setOpenUpCar, car, refetch, setOnSuccess,
             className='w-full border border-black-100 p-1 mb-2'
           />
           <input
-            {...register('renavam', { required: true })}
+            {...register('renavam', {
+              required: true,
+              valueAsNumber: true,
+              maxLength: {
+                value: 9,
+                message: 'O Renavam deve conter 9 números'
+              }
+            })}
             aria-invalid={ (errors.marca !== null) ? 'true' : 'false'}
             type='text'
             placeholder='Renavam'
