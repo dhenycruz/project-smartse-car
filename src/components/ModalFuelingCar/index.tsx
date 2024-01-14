@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import type { Cars } from '@prisma/client'
 import React, { useState } from 'react'
-import { type SubmitHandler, useForm } from 'react-hook-form'
+import { type SubmitHandler, useForm, Controller } from 'react-hook-form'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 
 interface Props {
   openFueling: boolean
   setOpenFueling: (param: boolean) => void
   car: Cars
+  refetch: () => void
 }
 
-const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car }): React.ReactElement => {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car, refetch }): React.ReactElement => {
+  const { register, handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: {
       carId: car.id,
       tipoCombustivel: 'gasolina',
@@ -31,8 +34,19 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car }): React.ReactE
     valorTotal: number
   }
 
+  const fuelingCar = useMutation({
+    mutationFn: async (abasteciment) => {
+      return await axios.post('/api/fueling/1')
+    },
+    onSuccess: () => {
+      refetch()
+    }
+  })
+
   const onSubmit: SubmitHandler<TypeValue> = async (data: TypeValue) => {
-    console.log(data)
+    console.log(data, litros)
+
+    fuelingCar.mutate()
   }
 
   return (
@@ -64,20 +78,34 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car }): React.ReactE
               aria-invalid={ (errors.valorLitro !== null) ? 'true' : 'false'}
               type='number'
               placeholder='Valor do Litro'
+              step={0.01}
               onChange={ (e) => { setValorLtiro(e.target.value) }}
               className='w-full border border-black-100 p-2 mb-2 '
           />
           </div>
           <div>
             <label className='text-slate-600 text-sm'>Litros</label>
-            <input
+            <Controller
+              control={control}
+              name='litros'
+              render={() => (
+                <input
+                  value={litros}
+                  type='number'
+                  className='w-full border border-black-100 p-2 mb-2'
+                  step={0.01}
+                  onChange={ (e) => { setLitros(() => e.target.value) }}
+                />
+              )}
+            />
+            {/* <input
               {...register('litros', { required: true })}
               aria-invalid={ (errors.litros !== null) ? 'true' : 'false'}
               type='number'
               placeholder='Litros'
               onChange={ (e) => { setLitros(e.target.value) }}
               className='w-full border border-black-100 p-2 mb-2'
-            />
+            /> */}
           </div>
           <div>
             <label className='text-slate-600 text-sm'>Valor Total</label>
@@ -85,7 +113,7 @@ const ModalFuelingCar: React.FC<Props> = ({ setOpenFueling, car }): React.ReactE
               {...register('valorTotal', { required: true })}
               aria-invalid={ (errors.valorTotal !== null) ? 'true' : 'false'}
               type='number'
-              value={Number(litros) * Number(valorLitro)}
+              value={(Number(litros) * Number(valorLitro)).toFixed(2)}
               placeholder='Valor Total'
               className='w-full border border-black-100 p-2 mb-2'
             />
