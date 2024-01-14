@@ -61,7 +61,7 @@ const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResul
       )}
       {
         openFueling && (
-          <ModalFuelingCar openFueling={ openFueling } setOpenFueling={ setOpenFueling} car={ car } />
+          <ModalFuelingCar openFueling={ openFueling } setOpenFueling={ setOpenFueling} car={ car } refetch={ refetch } />
         )
       }
     </>
