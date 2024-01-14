@@ -43,7 +43,11 @@ const Home = (): React.ReactElement => {
             <div className='w-full grid mobile:grid-cols-1 mobilemd:grid-cols-2 tablet:grid-cols-3 desktop:grid-cols-3 lgdevices:grid-cols-4 gap-4 place-items-left place-justify-center'>
               {
                 data.map((car: Cars, i: number) => (
-                    <Card key={i} car={car} refetch={ refetch }/>
+                    <Card
+                      key={i}
+                      car={car}
+                      refetch={ refetch }
+                    />
                 ))
               }
             </div>
