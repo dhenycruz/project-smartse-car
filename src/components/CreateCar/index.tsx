@@ -66,27 +66,27 @@ const CreateCar: React.FC<Props> = ({ closeForm, refetch }): React.ReactElement 
     <form onSubmit={ handleSubmit((data) => { void onSubmit(data) })} className='p-2 border borde-black-300 mb-4 m-auto'>
       <sub>ADICIONAR CARRO</sub>
       <hr className='mb-2 mt-2'/>
-      <div className='grid mobile:grid-cols-1 mobilemd:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 place-items-center'>
+      <div className='grid mobile:grid-cols-1 gap-2 mobilemd:grid-cols-2 tablet:grid-cols-4 desktop:grid-cols-4 lgdevices:grid-cols-4 place-items-center '>
         <input
           {...register('modelo', { required: true })}
           aria-invalid={ (errors.modelo !== null) ? 'true' : 'false'}
           type='text'
           placeholder='Modelo'
-          className='w-full border border-black-100 pl-2 mb-2 mobilemd:mr-2'
+          className='w-full border border-black-100 pl-2 mb-2'
         />
         <input
           {...register('marca', { required: true })}
           aria-invalid={ (errors.marca !== null) ? 'true' : 'false'}
           type='text'
           placeholder='Marca'
-          className='w-full border border-black-100 pl-2 mb-2'
+          className='w-full border border-black-100 pl-2 mb-2 '
         />
         <input
           {...register('potencia', { required: true })}
           aria-invalid={ (errors.marca !== null) ? 'true' : 'false'}
           type='text'
           placeholder='Potência'
-          className='w-full border border-black-100 pl-2 mb-2 mobilemd:mr-2'
+          className='w-full border border-black-100 pl-2 mb-2'
         />
         <input
           {...register('cor', { required: true })}
@@ -100,7 +100,7 @@ const CreateCar: React.FC<Props> = ({ closeForm, refetch }): React.ReactElement 
           aria-invalid={ (errors.marca !== null) ? 'true' : 'false'}
           type='text'
           placeholder='Renavam'
-          className='w-full border border-black-100 pl-2 mb-2 mobilemd:mr-2'
+          className='w-full border border-black-100 pl-2 mb-2'
         />
         <input
           {...register('placa', { required: true })}
@@ -114,7 +114,7 @@ const CreateCar: React.FC<Props> = ({ closeForm, refetch }): React.ReactElement 
           aria-invalid={ (errors.marca !== null) ? 'true' : 'false'}
           type='text'
           placeholder='Cidade'
-          className='w-full border border-black-100 pl-2 mb-2 mobilemd:mr-2'
+          className='w-full border border-black-100 pl-2 mb-2'
         />
         <select
           {...register('estado', { required: true })}
