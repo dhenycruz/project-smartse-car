@@ -1,6 +1,10 @@
 import { type Cars } from '@prisma/client'
 import React, { useState } from 'react'
 import ModalConfirmDel from '@/components/ModalConfrimDeleteCar'
+import { BsFuelPumpFill } from 'react-icons/bs'
+import { FaEdit } from 'react-icons/fa'
+import { MdDeleteForever } from 'react-icons/md'
+import ModalFuelingCar from '../ModalFuelingCar'
 
 interface Props {
   car: Cars
@@ -12,9 +16,14 @@ interface Props {
 
 const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResultText }): React.ReactElement => {
   const [open, onModal] = useState(false)
+  const [openFueling, setOpenFueling] = useState(false)
 
-  const fnDelete = (id: number): void => {
+  const fnDelete = (): void => {
     onModal(true)
+  }
+
+  const fnFueling = (): void => {
+    setOpenFueling(true)
   }
 
   return (
@@ -27,19 +36,34 @@ const Card: React.FC<Props> = ({ car, refetch, onSuccess, setOnSuccess, setResul
           <span>{car.cidade} - {car.estado}</span>
         </div>
         <div className='p-2'>
-          <button className='bg-green-800 border p-2 rounded-lg mb-2 font-bold text-white border-slate-300 w-full'>ABASTECER</button>
-          <button className='bg-white border border-slate-300 w-full p-2 font-semibold mb-2 rounded-lg'>Mais Detalhes</button>
+          <div className='flex justify-around'>
           <button
-            onClick={ () => { fnDelete(car.id) }}
-            className='bg-red-800 border border-slate-300 w-full p-2 font-bold mb-2 rounded-lg'
+            className='bg-green-800 border p-2 rounded-lg mb-2 font-bold text-white border-slate-300 w-full flex justify-center'
+            onClick={ () => { fnFueling() }}
           >
-            DELETAR
+            <BsFuelPumpFill />
           </button>
+          <button className='bg-white border p-2 rounded-lg mb-2 font-bold text-black border-slate-300 w-full flex justify-center ml-1 mr-1'>
+            <FaEdit />
+          </button>
+          <button
+            onClick={ () => { fnDelete() }}
+            className='bg-red-800 border border-slate-300 p-2 font-bold mb-2 rounded-lg text-white w-full flex justify-center'
+          >
+            <MdDeleteForever />
+          </button>
+          </div>
+          <button className='bg-zinc-800 text-white border border-black w-full p-2 mb-2 rounded-lg'>Mais Detalhes</button>
         </div>
       </div>
       { open && (
           <ModalConfirmDel open={ open } onModal={ onModal} refetch={refetch} id={car.id} setOnSuccess={ setOnSuccess } setResultText={ setResultText }/>
       )}
+      {
+        openFueling && (
+          <ModalFuelingCar openFueling={ openFueling } setOpenFueling={ setOpenFueling} car={ car } />
+        )
+      }
     </>
   )
 }

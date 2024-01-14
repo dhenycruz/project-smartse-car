@@ -1,13 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-
-const Modal = styled.div`
-  body {
-    filter: blur(4px);
-  }
-`
 
 interface Props {
   open: boolean
@@ -36,7 +29,7 @@ const ModalConfirmDel: React.FC<Props> = ({ open, onModal, id, refetch, setOnSuc
   })
 
   return (
-    <Modal className='w-96 rounded-lg border border-black bg-white z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 flex justify-center  items-center flex-col'>
+    <div className='w-96 rounded-lg border border-black bg-white z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 flex justify-center  items-center flex-col'>
       <h2 className='font-bold'>ALERTA!</h2>
       <h3>Deseja realmente deletar esse carro {id}?</h3>
       <hr className='bg-black mb-4'/>
@@ -57,7 +50,7 @@ const ModalConfirmDel: React.FC<Props> = ({ open, onModal, id, refetch, setOnSuc
           sim
         </button>
       </div>
-    </Modal>
+    </div>
   )
 }
 
