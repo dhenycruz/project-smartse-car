@@ -22,7 +22,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         }
       })
 
-      res.status(200).json({ data: users })
+      res.status(200).json(users)
       res.end()
     } else if (method === 'POST') {
       const { name, email, cpf, password } = req.body

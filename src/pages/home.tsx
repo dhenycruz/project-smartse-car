@@ -7,6 +7,8 @@ import { type Cars, type Abastecimentos } from '@prisma/client'
 import Card from '@/components/Card'
 import CreateCar from '@/components/CreateCar'
 import ModalSuccess from '@/components/ModalSuccess'
+import { useRouter } from 'next/router'
+import { FaCarSide } from 'react-icons/fa6'
 
 interface ICar extends Cars {
   abastecimentos: Abastecimentos[]
@@ -16,6 +18,8 @@ const Home = (): React.ReactElement => {
   const [openAddCar, setOpenAddCar] = useState(false)
   const [resultText, setResultText] = useState('')
   const [onSuccess, setOnSuccess] = useState(false)
+
+  const router = useRouter()
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['cars'],
@@ -31,16 +35,17 @@ const Home = (): React.ReactElement => {
       <main className='pr-10 pl-10'>
         <div className='flex items-center justify-between mb-2 mt-2'>
           <h1>Home</h1>
+          <button className='border border-black-600 pl-4 pr-4 pb-2 pt-2' onClick={() => { void router.push('/users') }}>Usuários</button>
           {
-          !openAddCar && (
-            <button
-              onClick={ () => { setOpenAddCar(!openAddCar) }}
-              className='border border-black-600 pl-4 pr-4 pb-2 pt-2'
-            >
-              Adicionar Carro
-            </button>
-          )
-        }
+            !openAddCar && (
+              <button
+                onClick={ () => { setOpenAddCar(!openAddCar) }}
+                className='border border-black-600 pl-4 pr-4 pb-2 pt-2 flex items-center'
+              >
+                <span className='font-bold mb-1'>+</span> <FaCarSide />
+              </button>
+            )
+          }
         </div>
         <hr className='mb-4'/>
         { openAddCar && <CreateCar closeForm={setOpenAddCar} refetch={ refetch } setOnSuccess={ setOnSuccess } setResultText={ setResultText } /> }
