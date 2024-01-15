@@ -34,12 +34,45 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
       res.status(200).json({ data: car })
     } else if (method === 'PATCH') {
-      const { body } = req
+      const { modelo, marca, cor, potencia, portas, ar, placa, renavam, imgcar, estado, cidade } = req.body
+
+      const car = await prisma.cars.findUnique({
+        where: { id: Number(id) },
+        select: {
+          renavam: true,
+          placa: true
+        }
+      })
+
+      const dataBody = {
+        modelo,
+        marca,
+        cor,
+        potencia,
+        portas: Number(portas),
+        ar,
+        renavam,
+        imgcar,
+        estado,
+        placa,
+        cidade
+      }
+
+      dataBody.renavam = String(renavam)
+
+      if (car?.renavam === String(renavam)) {
+        delete dataBody.renavam
+      }
+
+      if (car?.placa === placa) {
+        delete dataBody.placa
+      }
+
       await prisma.cars.update({
         where: {
           id: Number(id)
         },
-        data: body
+        data: dataBody
       })
 
       res.status(200).json({ message: 'Carro atualizado com sucesso!' })

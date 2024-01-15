@@ -34,7 +34,7 @@ const ModalUpCar: React.FC<Props> = ({ setOpenUpCar, car, refetch, setOnSuccess,
   const updateCar = useMutation({
     mutationFn: async ({ id, car }: { id: number, car: FormValues }) => {
       const url = `/api/cars/${id}`
-      return await axios.put(url, car)
+      return await axios.patch(url, car)
     },
     onSuccess: () => {
       refetch()
