@@ -1,40 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Cover_projeto_Github](https://github.com/dhenycruz/project-smartse-car/blob/master/public/capa-github.png)
+# Sisteam de Gestão de Frotas
+Esse projeto faz parte de um teste prático para a empresa SmartSE onde o principal objetivo é criar um sistema de cadastro de veículos e abastecimentos.
 
-## Getting Started
+## 🚀 Começando
 
-First, run the development server:
+Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 📋 Pré-requisitos
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+De que coisas você precisa para instalar o software e como instalá-lo?
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- Nodejs, docker, docker-compose e git instalados na sua máquina.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### 🔧 Instalação
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+  - Com o terminal aberto, vamos clonar o repositório
+    `git clone git@github.com:dhenycruz/teste-smartSE.git`
+    
+  - Instalando as dependências
+    - Depois de ter clonado o repositório entra na pasta do projeto e instale as dependências rodando o comando:
+        `npm run install`
+      
+    - Arquivo .env no backend
+      - Para a nossa aplicação rodar precisamos criar o arquivo .env ou alterar o arquivo .env-example para .env;
+  
+   - Banco de Dados Postgree
+      - O banco de dados da aplicação está rodando em docker com o docker-compose, para subir o banco de dados usamos o comando:
+        `docker-compose up -d`
+     - Para subit todas as migrates para o banco de dados utilize o comando:
+        `npx prisma generate`
+      - Para popular o banco de dados utilize o comando:
+        `npx prisma db seed`
+        
+   - Rodando a aplicação
+       - Após seguir os passoas a cima é hora de dar o start na nossa aplicação, rode o comando:
+         `npm run build && npm run start`
+      
+   - CPF E senha para poder logar na aplicação:
+        - CPF: 01234567890
+        - SENHA: 123df
+  
+  Assim a nossa aplicação estará rodando localmente
+  
+## 📦 Desenvolvimento
+Para realizar o desenvolvimento dessa aplicação, decidi me desaviar, não era pré requisito, pois o foco do projeto é o desenvolvimento frontend, mas para testar meus conhecimentos e colocar em prática resolvi também desenvolver a parte do backend da aplicação.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Como foi solicitado para desenvolver o projeto utilizando NEXT.JS, aprovetei para desenvolver a API da aplicação utilizando o próprio next, além desenvolver a aplicação localmente, coloquei a aplicação em produção, agora é possível acesse-la pelo link: https://project-smartse-car.vercel.app/.
 
-## Learn More
+Utilizei as tecnologias que foram solcitadas: NEXT.JS e TypeScript, React-query, react-hook-form, o zod não cheguei a utilizá-lo, fiz as validações utilizando o próprio react-hook-form, não tinha utilizado o react-query antes, mas me apaixonei, o refecth, onSuccess, Mutation, são incríveis e para estilizar a aplicação ultilizei Tailwind.
 
-To learn more about Next.js, take a look at the following resources:
+## Futuras implementações
+  * Utilizar animações quando abre os modals e utilizar o filter blur para desfocar o conteúdo atrás do modal;
+  * Utilizar máscaras nos inputs de cpf e valores;
+  * Adicionar input para pesquisa e filtro de veículos;
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+A base da aplicação dá margem para grandes implementações e até mesmo melhorar a lógica de negócio do sisteam, futuramente posso dar continuidade no projeto.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Autor
+---
 
-## Deploy on Vercel
+<img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/26901028?s=400&u=d99619f0fcc7ff7d8407ff05a0e90a0149f959ee&v=4" width="100px;" alt=""/>
+ 
+ Dheniarley Cruz 🚀
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Desenvolvedor Full Stack 
